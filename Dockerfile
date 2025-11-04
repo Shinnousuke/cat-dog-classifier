@@ -20,4 +20,4 @@ ENV STREAMLIT_SERVER_HEADLESS=true \
     STREAMLIT_SERVER_ENABLEXSRSFPROTECTION=false
 
 # Command to run the Streamlit app
-CMD ["streamlit", "run", "app.py"]
+CMD ["streamlit", "run", "application.py"]
