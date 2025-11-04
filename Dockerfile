@@ -1,21 +1,23 @@
-# Use an official TensorFlow image (includes Python, TensorFlow, and dependencies)
-FROM tensorflow/tensorflow:2.13.0
+# Use an official Python runtime as base image
+FROM python:3.10-slim
 
-# Set working directory inside the container
+# Set working directory in container
 WORKDIR /app
 
-# Copy all files from your project into the container
+# Copy all files from current directory to /app in container
 COPY . /app
 
-# Install any extra Python libraries if needed
-# (you can skip this if everything is already included in TensorFlow)
-RUN pip install --no-cache-dir numpy pandas matplotlib
+# Install required dependencies
+RUN pip install --no-cache-dir streamlit tensorflow pillow numpy
 
-# Create a directory inside the container for saving models
-RUN mkdir -p /app/saved_models
+# Expose Streamlit’s default port
+EXPOSE 8501
 
-# Set environment variable to avoid interactive prompts
-ENV TF_CPP_MIN_LOG_LEVEL=2
+# Set environment variables to avoid Streamlit prompts
+ENV STREAMLIT_SERVER_HEADLESS=true \
+    STREAMLIT_SERVER_PORT=8501 \
+    STREAMLIT_SERVER_ENABLECORS=false \
+    STREAMLIT_SERVER_ENABLEXSRSFPROTECTION=false
 
-# Command to run your Python script
-CMD ["python", "train_model.py"]
+# Command to run the Streamlit app
+CMD ["streamlit", "run", "app.py"]
